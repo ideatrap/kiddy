@@ -1,0 +1,3 @@
+activity_id,name,min_age,max_age
+1,University Studio,1.5,
+2,Botanic Garden,,

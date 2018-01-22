@@ -41,7 +41,7 @@ def cal_age(date, child):
         return -1 #most flexible scenario
     else:
         year = child.birth_year
-        return None
+        return -1
 
 
 def reco (activities, child_list, date_list):
@@ -52,13 +52,22 @@ def reco (activities, child_list, date_list):
             #Age filter - find all activities that meeting age requirement
             age = cal_age(date, child)
             #age appropriate
-            act_age = activities[(activities.min_age<=age) & (activities.max_age >= age)]
+            if age == -1: #not considering age constraint
+                act_age = activities
+            else:
+                act_age = activities[(activities.min_age <= age) & (activities.max_age >= age)]
+                act_age.reset_index(inplace=True)
+                act_age= act_age.drop('index',axis = 1)
+
+            print(act_age)
 
             #personalize the activity for the personalize
             #for now. it uses random number
             length = act_age.shape[0]
-            activity_index = random.randint(1,length)
+            activity_index = random.randint(0,length-1)
             activity_id = act_age.get_value(activity_index, 'activity_id')
+
+
 
             card = Card ()
             card.date = date

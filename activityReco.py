@@ -1,8 +1,8 @@
 import pandas as pd
 import pytz
 import datetime
-import random
-import datecheck
+import dateTimeCheck
+import personalize
 
 SGT = pytz.timezone('Asia/Singapore')
 today = datetime.datetime.now(tz=SGT)
@@ -12,6 +12,7 @@ class Card:
     date = None
     child_id = None
     activity_id = None
+
 
 def get_activities ():
     acitivities = pd.read_csv('db/activity.csv')
@@ -46,8 +47,11 @@ def cal_age(date, child):
 
 
 
-def reco (activities, child_list, date_list):
+def reco (activities, child_list, date_list, time = ""):
     list_card = []
+    list_card_morning = []
+    list_card_afternoon = []
+
     for date in date_list:
         for child in child_list:
 
@@ -65,16 +69,14 @@ def reco (activities, child_list, date_list):
             #check whether it opens
             #get the list of activities that open
             act_age_date = act_age
-            test1, test2 = datecheck.open_act(act_age, date)
+            test1, test2 = dateTimeCheck.open_act(act_age, date)
 
             #personalize the activity for the personalize
-            #for now. it uses random number
+
             print('\n ************************')
             print(test1, test2)
 
-            length = act_age_date.shape[0]
-            activity_index = random.randint(0,length-1)
-            activity_id = act_age.get_value(activity_index, 'activity_id')
+            activity_id = personalize.personalize(act_age_date, child)
 
             card = Card ()
             card.date = date

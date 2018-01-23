@@ -10,9 +10,10 @@ def is_PH(date, country): #is it public holiday?
     return False
 
 
-def open_act(act_df, date): #list of open activities
+def open_act(act_df, date, time = ""): #list of open activities
     act_index_open_morning = []
     act_index_open_afternoon = []
+    act_index_open =[]
 
     #getting attribute of the date
     str_date = date.split('-')
@@ -30,8 +31,13 @@ def open_act(act_df, date): #list of open activities
         time_dic = act['biz_hour']
         if str(time_dic) == 'nan':
             #it always open
-            act_index_open_morning.append(index)
-            act_index_open_afternoon.append(index)
+            if time == "":
+                act_index_open_morning.append(index)
+                act_index_open_afternoon.append(index)
+            else:
+                print("Error! hasn't start to implement specific time open check")
+                print("Error from dateTimeCheck.py")
+                exit()
         else:
             special_date = act['biz_special_date']
             #print(special_date)

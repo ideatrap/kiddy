@@ -1,6 +1,7 @@
 import numpy as np
 import datetime
 import pandas as pd
+import tools
 
 def is_PH(date, country): #is it public holiday?
     holidays = pd.read_csv('db/holiday.csv')
@@ -27,13 +28,13 @@ def open_act(act_df, date, time = ""): #list of open activities
     #iterate through
     for index, act in act_df.iterrows():
         status = 'open'
-
+        result = []
         time_dic = act['biz_hour']
         if str(time_dic) == 'nan':
             #it always open
             if time == "":
-                act_index_open_morning.append(index)
-                act_index_open_afternoon.append(index)
+                act_index_open_morning.append(act_df.iloc[index]['activity_id'])
+                act_index_open_afternoon.append(act_df.iloc[index]['activity_id'])
             else:
                 print("Error! hasn't start to implement specific time open check")
                 print("Error from dateTimeCheck.py")
@@ -52,5 +53,14 @@ def open_act(act_df, date, time = ""): #list of open activities
     #check pubic schedule
     #check week day duration
 
+    if time == "": #need to compile morning and afternoon list
+        morning_df = act_df[act_df['activity_id'].isin(act_index_open_morning)]
+        afternoon_df= act_df[act_df['activity_id'].isin(act_index_open_afternoon)]
 
-    return act_index_open_morning, act_index_open_afternoon #ls_act_index_open_morning
+        morning_df = tools.reindex(morning_df)
+        afternoon_df = tools.reindex(afternoon_df)
+
+        result.append(morning_df)
+        result.append(afternoon_df)
+
+    return result

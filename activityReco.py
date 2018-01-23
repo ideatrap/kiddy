@@ -3,15 +3,12 @@ import pytz
 import datetime
 import dateTimeCheck
 import personalize
+import tools
+import card_class
 
 SGT = pytz.timezone('Asia/Singapore')
 today = datetime.datetime.now(tz=SGT)
 
-class Card:
-    #Compulsary field
-    date = None
-    child_id = None
-    activity_id = None
 
 
 def get_activities ():
@@ -44,13 +41,16 @@ def cal_age(date, child):
     else:
         year = child.birth_year
         return -1
+def list_to_dataFrame (ls, df):
+    #new_df =
+#    for i in ls:
+    pass
+
 
 
 
 def reco (activities, child_list, date_list, time = ""):
-    list_card = []
-    list_card_morning = []
-    list_card_afternoon = []
+    cards = []
 
     for date in date_list:
         for child in child_list:
@@ -62,29 +62,31 @@ def reco (activities, child_list, date_list, time = ""):
                 act_age = activities
             else:
                 act_age = activities[(activities.min_age <= age) & (activities.max_age >= age)]
-                act_age.reset_index(inplace=True)
-                act_age= act_age.drop('index',axis = 1)
+                act_age = tools.reindex(act_age)
 
-
-            #check whether it opens
             #get the list of activities that open
-            act_age_date = act_age
-            test1, test2 = dateTimeCheck.open_act(act_age, date)
-
-            #personalize the activity for the personalize
+            act_date_df_ls = dateTimeCheck.open_act(act_age, date)
 
             print('\n ************************')
-            print(test1, test2)
 
-            activity_id = personalize.personalize(act_age_date, child)
+            #personalize the activity for the personalize
+            i = 0
+            for act_df in act_date_df_ls:
+                act_result_df = personalize.personalize(act_df, child)
+                for index, act in act_result_df.iterrows():
+                    card = card_class.Card ()
+                    card.date = date
+                    card.child_id = child.id
+                    card.activity_id = act['activity_id']
+                    card.activity_name = act['name']
+                    if i == 0:
+                        card.half_day = 'Morning'
+                    else:
+                        card.half_day = 'Afternoon'
+                    cards.append(card)
+                    i = 1+i
 
-            card = Card ()
-            card.date = date
-            card.child_id = child.id
-            card.activity_id = activity_id
-
-            list_card.append(card)
-    return list_card
+    return cards
 
 def activity_reco (child_list, date_list):
     #read in activity database

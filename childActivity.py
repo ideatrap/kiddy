@@ -24,12 +24,13 @@ def initialize_child():
 
     return child_list
 
-def print_result(ls):
-    print('\n ======== Result is =============')
-    for card in ls:
-        print("Date: ", card.date)
+def print_cards(cards):
+    print('\n      ======== Result ==========')
+    for card in cards:
+        print("Date: ", card.date, " ", card.half_day)
         print("Child ID: ", card.child_id)
         print("Activity ID: ", card.activity_id)
+        print("Activity name: ", card.activity_name)
         print('\n')
 
 
@@ -44,4 +45,4 @@ date_list = AR.next_sat()
 result = AR.activity_reco(child_list,date_list)
 
 
-print_result(result)
+print_cards(result)

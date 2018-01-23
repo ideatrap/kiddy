@@ -1,5 +1,15 @@
-activity_id,name,min_age,max_age,biz_hour,biz_day_of_week_hour,biz_PH_hour,biz_date,biz_closure_date,I_O_door
-1,University Studio,1.5,,A-10:00to19:00,,,,,outdoor
-2,Botanic Garden,,,A-5:00to24:00,,,,,outdoor
-3,The Art Ground - I SΦ with my Little Eye,,12,A-9:30to17:00;B-9:30to18:00,1-close;2-close;3-A;4-A;5-B;6-B;7-B,B,2017-11-09to2018-04-01,,indoor
-4,Peppa Pig Live! Peppa Pig’s Celebration,,,A-18:00to19:10;B-11:00to12:10;C-14:30to15:40;D-17:30to18:10,1-close;2-close;3-close;4-close;5-A;6-BCD;7-BC,,2018-03-09to2018-03-11,,indoor
+activity_id,name,min_age,max_age,biz_hour,biz_day_of_week_hour,biz_PH_hour,biz_date,biz_special_date
+1,University Studio,,,A-10:00to19:00,,,,
+2,Botanic Garden,,,A-5:00to24:00,,,,
+3,The Art Ground - I SΦ with my Little Eye,,12,A-9:30to17:00;B-9:30to18:00,1-close;2-close;3-A;4-A;5-B;6-B;7-B,B,2017-11-09to2018-04-01,
+4,Peppa Pig Live! Peppa Pig’s Celebration,,,A-18:00to19:10;B-11:00to12:10;C-14:30to15:40;D-17:30to18:10,1-close;2-close;3-close;4-close;5-A;6-BCD;7-BC,,2018-03-09to2018-03-11,
+5,MacRitchie Reservoir Park,,,,,,,
+6,Singapore Zoo,,,A-8:30to18:00,,,,
+7,River Safari,,,A-10:00to19:00,,,,
+8,Central Public Library,,,A-10:00to21:00;B-10:00to17:00,,close,,2018-02-15:B;2018-12-24:B;2018-12-31:B
+9,Toa Payoh Public Library,,,A-10:00to21:00;B-10:00to17:00,,close,,2018-02-15:B;2018-12-24:B;2018-12-31:B
+10,National Museum of Singapore,,,A-10:00to19:00,,,,
+11,Keppel Centre for Art Education at National Gallery Singapore,,,A-10:00to19:00;B-10:00to21:00,1-A;2-A;3-A;4-A;5-B;6-A;7-A,,,
+12,ArtScience in Focus at ArtScience Museum,,,A-10:00to19:00,,,2018-01-26to2018-02-02,
+13,Future World at ArtScience Museum,,,A-10:00to19:00,,,,
+14,Treasures of the natural world at ArtScience Museum,,,A-10:00to19:00,,,2017-11-25to2018-04-29,

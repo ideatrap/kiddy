@@ -2,6 +2,7 @@ import pandas as pd
 import pytz
 import datetime
 import random
+import datecheck
 
 SGT = pytz.timezone('Asia/Singapore')
 today = datetime.datetime.now(tz=SGT)
@@ -43,13 +44,7 @@ def cal_age(date, child):
         year = child.birth_year
         return -1
 
-def is_PH(date, country):
-    holidays = pd.read_csv('db/holiday.csv')
-    for day in holidays['Date']:
-        if date == day:
-            return True
 
-    return False
 
 def reco (activities, child_list, date_list):
     list_card = []
@@ -67,31 +62,19 @@ def reco (activities, child_list, date_list):
                 act_age= act_age.drop('index',axis = 1)
 
 
-            #date filter -- determine whether the activity is open for the day
-            ls_act_index_open = []
-            str_date = date.split('-')
-            date_std = datetime.datetime(int(str_date[0]), int(str_date[1]), int(str_date[2]),8,0,0)
-            date_day_of_week = date_std.weekday()+1 # 1 for Monday, 2 for Saturday
-            date_PH = is_PH(date, 'SG')
-
-
-
-
+            #check whether it opens
+            #get the list of activities that open
             act_age_date = act_age
-
-
-
+            test1, test2 = datecheck.open_act(act_age, date)
 
             #personalize the activity for the personalize
             #for now. it uses random number
             print('\n ************************')
-            print(date_PH)
+            print(test1, test2)
 
             length = act_age_date.shape[0]
             activity_index = random.randint(0,length-1)
             activity_id = act_age.get_value(activity_index, 'activity_id')
-
-
 
             card = Card ()
             card.date = date

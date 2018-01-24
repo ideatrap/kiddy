@@ -11,7 +11,7 @@ def is_PH(date, country): #is it public holiday?
     return False
 
 
-def open_act_filter (df, date, cutoff_time):
+def open_act_filter (df, date, start_time, end_time):
     #getting attribute of the date
     #date expected to be '2018-01-10'
     #time expected to be '10:00'
@@ -32,14 +32,14 @@ def open_act_filter (df, date, cutoff_time):
                 continue
             else:
                 start_hour  = act['biz_hour'][act['biz_special_date'][date]][0]
-                if start_hour > cutoff_time:
-                    #the activity opens after the cutoff time
+                end_hour  = act['biz_hour'][act['biz_special_date'][date]][1]
+                if start_hour > end_time or end_hour < start_time:
+                    #the activity opens after the end time, or
+                    #it ends before the start time
                     #consider as closed
                     df = df.drop(index)
                     continue
 
-
-    df = tools.reindex(df)
     #check public holiday
     #check business day
     #check normal
@@ -49,14 +49,16 @@ def open_act_filter (df, date, cutoff_time):
 
 def open_activities(act_df, date, time = ""): #list of open activities
 
-    open_act_df = open_act_filter(act_df, date, '12:00')
+    open_act_df_morning = open_act_filter(act_df, date, '8:00','12:00')
+    open_act_df_afternoon = open_act_filter(act_df, date,'13:00','18:00')
+    open_act_df_evening = open_act_filter(act_df, date, '19:00','22:00')
 
     act_index_open_morning = [] #list with activity_id
     act_index_open_afternoon = []
     act_index_open =[]
 
 
-    print(open_act_df)
+    print(open_act_df_morning)
 
     '''
     for index, act in act_df.iterrows():

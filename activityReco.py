@@ -17,6 +17,7 @@ def get_activities ():
     #replacing None in min age to 0, max to be 200
     acitivities['min_age'].fillna(0, inplace = True)
     acitivities['max_age'].fillna(200, inplace = True)
+    acitivities = tools.parse_date_time(acitivities)
     return acitivities
 #find the next Tue in Singapore time
 def next_sat():
@@ -65,11 +66,11 @@ def reco (activities, child_list, date_list, time = ""):
                 act_age = tools.reindex(act_age)
 
             #get the list of activities that open
-            act_date_df_ls = dateTimeCheck.open_act(act_age, date)
+            act_date_df_ls = dateTimeCheck.open_activities(act_age, date)
 
-            #personalize the activity for the personalize
+            #personalize the activity based on personal activity record
             i = 0
-            for act_df in act_date_df_ls:
+            for act_df in act_date_df_ls: #iterate through morning and afternoon session
                 act_result_df = personalize.personalize(act_df, child)
                 for index, act in act_result_df.iterrows():
                     card = card_class.Card ()
@@ -82,14 +83,14 @@ def reco (activities, child_list, date_list, time = ""):
                     elif i == 1 and len(act_date_df_ls) == 2:
                         card.half_day = 'Afternoon'
                     else:
-                        card.half_day = 'Specific Time: '+ time
+                        card.half_day = 'Time: '+ time
                     cards.append(card)
-                    i = 1+i
+                i = 1+i
 
     return cards
 
 def activity_reco (child_list, date_list):
     #read in activity database
     activities = get_activities()
-    date_child_act = reco(activities, child_list, date_list)
-    return date_child_act
+    reco_act = reco(activities, child_list, date_list)
+    return reco_act

@@ -1,12 +1,18 @@
 import random
 #for now. it uses random number
 def personalize (act_df, child):
-
-    length = act_df.shape[0]
-    index = random.randint(0,length-1)
-
     index_ls =[]
-    index_ls.append(index)
+
+    '''
+        randomly select two activities
+
+    '''
+    num = 1 #number of activities to recommend
+    length = act_df.shape[0]
+    for i in range (num):
+        index = random.randint(0,length-1)
+        index_ls.append(index)
+        i = i +1
 
     df_result = act_df.loc[index_ls] #location must be list
     return df_result

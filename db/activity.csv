@@ -1,4 +1,4 @@
- activity_id,name,min_age,max_age,biz_hour,biz_day_of_week_hour,biz_PH_hour,biz_date,biz_special_date
+activity_id,name,min_age,max_age,biz_hour,biz_day_of_week_hour,biz_PH_hour,biz_date,biz_special_date
 1,University Studio,,,,,,,
 2,Botanic Garden,,,A-5:00to24:00,,,,
 3,The Art Ground - I SΦ with my Little Eye,,12,A-9:30to17:00;B-9:30to18:00,1-close;2-close;3-A;4-A;5-B;6-B;7-B,B,2017-11-09to2018-04-01,

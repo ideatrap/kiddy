@@ -21,8 +21,9 @@ def parse_date_time(df):
                 hour_start = i.split('-')[1].split('to')[0]
                 hour_end = i.split('-')[1].split('to')[1]
                 biz_hour_dic[i.split('-')[0]]= [hour_start,hour_end]
-        df.set_value(index, "biz_hour", biz_hour_dic)
-        print(df.iloc[index]["biz_hour"])
+        df= df.set_value(index, "biz_hour", biz_hour_dic)
+        #print(df.iloc[int(index)]["biz_hour"])
+    return df
 
 
 
@@ -37,11 +38,12 @@ def open_act(act_df, date, time = ""): #list of open activities
     date_day_of_week = date_std.weekday()+1 # 1 for Monday, 2 for Saturday
     date_PH = is_PH(date, 'SG')
 
-    parse_date_time(act_df)
+    act_df = parse_date_time(act_df)
 
     #start from highest priority
 
     #iterate through
+    '''
     for index, act in act_df.iterrows():
         status = 'open'
         result = []
@@ -81,13 +83,8 @@ def open_act(act_df, date, time = ""): #list of open activities
 
             debug = special_date_ls
 
-            #print(debug)
 
-        '''
-        if str(act) == 'nan':
-            #potentially open
-        else:
-        '''
+            #print(debug)
 
     #check special day
     #check pubic schedule
@@ -102,5 +99,5 @@ def open_act(act_df, date, time = ""): #list of open activities
 
         result.append(morning_df)
         result.append(afternoon_df)
-
-    return result
+    '''
+    return [act_df]

@@ -67,8 +67,6 @@ def reco (activities, child_list, date_list, time = ""):
             #get the list of activities that open
             act_date_df_ls = dateTimeCheck.open_act(act_age, date)
 
-            print('\n ************************')
-
             #personalize the activity for the personalize
             i = 0
             for act_df in act_date_df_ls:

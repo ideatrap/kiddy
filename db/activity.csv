@@ -12,4 +12,5 @@ activity_id,name,min_age,max_age,biz_hour,biz_day_of_week_hour,biz_PH_hour,biz_d
 11,Keppel Centre for Art Education at National Gallery Singapore,,,A-10:00to19:00;B-10:00to21:00,1-A;2-A;3-A;4-A;5-B;6-A;7-A,,,
 12,ArtScience in Focus at ArtScience Museum,,,A-10:00to19:00,,,2018-01-26to2018-02-02,
 13,Future World at ArtScience Museum,,,A-10:00to19:00,,,,
-14,Treasures of the natural world at ArtScience Museum,,,A-10:00to19:00,,,2017-11-25to2018-04-29,
+14,Treasures of the natural world at ArtScience Museum,,,A-13:00to19:00,,,2017-11-25to2018-04-29,2018-01-27:A
+15,Treasures of the natural world at ArtScience Museum,,,A-10:00to19:00,,,2017-11-25to2018-04-29,2018-01-27:close

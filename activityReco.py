@@ -17,7 +17,11 @@ def get_activities ():
     #replacing None in min age to 0, max to be 200
     acitivities['min_age'].fillna(0, inplace = True)
     acitivities['max_age'].fillna(200, inplace = True)
+
+    #TODO potentially convert all text to lower case to avoid input error
+
     acitivities = tools.parse_date_time(acitivities)
+
     return acitivities
 #find the next Tue in Singapore time
 def next_sat():

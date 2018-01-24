@@ -11,32 +11,53 @@ def is_PH(date, country): #is it public holiday?
     return False
 
 
-def open_act_filter (df, date, time =""):
-    return None
+def open_act_filter (df, date, cutoff_time):
+    #getting attribute of the date
+    #date expected to be '2018-01-10'
+    #time expected to be '10:00'
+    str_date = date.split('-')
+    date_std = datetime.datetime(int(str_date[0]), int(str_date[1]), int(str_date[2]),8,0,0)
+    date_day_of_week = date_std.weekday()+1 # 1 for Monday, 2 for Saturday
+    is_date_PH = is_PH(date, 'SG')
+
+    for index, act in df.iterrows():
+    #start from highest priority
+    #check special date
+        if date in act['biz_special_date'].keys():
+            #part of the special day
+            if act['biz_special_date'][date] == 'close':
+                #the acitivities is closed for the daily
+                #go to the next activity
+                df = df.drop(index)
+                continue
+            else:
+                start_hour  = act['biz_hour'][act['biz_special_date'][date]][0]
+                if start_hour > cutoff_time:
+                    #the activity opens after the cutoff time
+                    #consider as closed
+                    df = df.drop(index)
+                    continue
+
+
+    df = tools.reindex(df)
+    #check public holiday
+    #check business day
+    #check normal
+
+    return df
 
 
 def open_activities(act_df, date, time = ""): #list of open activities
 
-    open_act_df = open_act_filter(act_df, date)
-    
+    open_act_df = open_act_filter(act_df, date, '12:00')
+
     act_index_open_morning = [] #list with activity_id
     act_index_open_afternoon = []
     act_index_open =[]
 
 
-    print(act_df)
-    #getting attribute of the date
-    str_date = date.split('-')
-    date_std = datetime.datetime(int(str_date[0]), int(str_date[1]), int(str_date[2]),8,0,0)
-    date_day_of_week = date_std.weekday()+1 # 1 for Monday, 2 for Saturday
-    date_PH = is_PH(date, 'SG')
+    print(open_act_df)
 
-
-
-
-    #start from highest priority
-
-    #iterate through
     '''
     for index, act in act_df.iterrows():
         status = 'open'
@@ -94,4 +115,4 @@ def open_activities(act_df, date, time = ""): #list of open activities
         result.append(morning_df)
         result.append(afternoon_df)
     '''
-    return [act_df]
+    return [act_df,act_df]

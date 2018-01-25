@@ -4,6 +4,7 @@ class Card:
         date = None
         child_id = None
         activity_id = None
+        biz_hour = None
 
         #optional:
         half_day = None

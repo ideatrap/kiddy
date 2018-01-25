@@ -70,17 +70,18 @@ def reco (activities, child_list, date_list, time = ""):
                 act_age = tools.reindex(act_age)
 
             #get the list of activities that open
-            act_date_df_ls = dateTimeCheck.open_activities(act_age, date)
+            act_date_df_ls = dateTimeCheck.open_activities(act_age, date, time)
 
             #personalize the activity based on personal activity record
             i = 0
             for act_df in act_date_df_ls: #iterate through morning and afternoon session
-                act_result_df = personalize.personalize(act_df, child)
+                act_result_df = personalize.personalize(act_df, child, num = 1)
                 for index, act in act_result_df.iterrows():
                     card = card_class.Card ()
                     card.date = date
                     card.child_id = child.id
                     card.activity_id = act['activity_id']
+                    card.biz_hour = act['opening_hour']
                     card.activity_name = act['name']
                     if i == 0 and len(act_date_df_ls) == 2:
                         card.half_day = 'Morning'
@@ -93,8 +94,8 @@ def reco (activities, child_list, date_list, time = ""):
 
     return cards
 
-def activity_reco (child_list, date_list):
+def activity_reco (child_list, date_list, time=""):
     #read in activity database
     activities = get_activities()
-    reco_act = reco(activities, child_list, date_list)
+    reco_act = reco(activities, child_list, date_list, time)
     return reco_act

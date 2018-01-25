@@ -20,10 +20,13 @@ def open_act_filter (df, date, start_time, end_time):
     date_day_of_week = date_std.weekday()+1 # 1 for Monday, 2 for Saturday
     is_date_PH = is_PH(date, 'SG')
 
+    start_time = tools.standardize_time(start_time)
+    end_time = tools.standardize_time(end_time)
+
 
     for index, act in df.iterrows():
     #start from highest priority
-    #check special date
+        #check special date
         if date in act['biz_special_date'].keys():
             #part of the special day
             if act['biz_special_date'][date] == 'close':
@@ -53,11 +56,25 @@ def open_act_filter (df, date, start_time, end_time):
                         #considered as open as long as it opens one second in the time windo
                     '''
 
-    #check public holiday
-
+        #check public holiday
         if is_date_PH:
             if str(act['biz_PH_hour']) != 'nan' :
-                print(act['biz_PH_hour'])
+                if act['biz_PH_hour'] == 'close':
+                    df = df.drop(index)
+                    continue
+                else:
+                    hours_ls = act['biz_PH_hour']
+                    is_open = "closed"
+                    for hour in hours_ls:
+                        #loop through all possible hours <- for theatre play
+                        act_start_hour  = act['biz_hour'][hour][0]
+                        act_end_hour  = act['biz_hour'][hour][1]
+
+                        if act_end_hour > start_time and act_start_hour <= end_time:
+                            is_open = 'open'
+                    if is_open == 'closed':
+                        df = df.drop(index)
+                        continue
 
 
 

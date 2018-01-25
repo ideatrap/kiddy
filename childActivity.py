@@ -27,9 +27,9 @@ def initialize_child():
 def print_cards(cards):
     for card in cards:
         print("\nDate: ", card.date, " ", card.half_day)
-        print("Child ID: ", card.child_id)
-        print("Activity ID: ", card.activity_id)
-        print("Activity name: ", card.activity_name)
+        #print("Child ID: ", card.child_id)
+        #print("Activity ID: ", card.activity_id)
+        print(" ----   ", card.activity_name)
         print("Opening hour: ", card.biz_hour)
 
 
@@ -41,6 +41,7 @@ date_list = []
 
 child_list = initialize_child()
 date_list = activityReco.next_sat()
-result = activityReco.activity_reco(child_list,date_list)
+#result = activityReco.activity_reco(child_list,date_list, '01:00')
+result = activityReco.activity_reco(child_list,date_list, '')
 
 print_cards(result)

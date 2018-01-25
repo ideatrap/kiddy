@@ -152,12 +152,15 @@ def open_act_filter (df, date, start_time, end_time):
     return df_output
 
 
-def open_activities(act_df, date, start_time = ""): #list of open activities
+def open_activities(act_df, date, start_time = "", slots = 2): #list of open activities
 
-    if start_time == "":
+    if start_time == "" and slots == 2:
         open_act_df_morning = open_act_filter(act_df, date, '8:00','12:00')
         open_act_df_afternoon = open_act_filter(act_df, date,'13:00','18:00')
         return [open_act_df_morning, open_act_df_afternoon]
+    elif start_time == "" and slots == 1:
+        open_act_df = open_act_filter(act_df, date, '8:00','18:00')
+        return [open_act_df]
     else:
         hour = int(start_time.split(":")[0])
         end_time = min(24, hour+1)

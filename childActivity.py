@@ -1,6 +1,8 @@
 
 import activityReco
-
+import jsonpickle
+import json
+import pprint
 
 class Child:
     #Compulsory field
@@ -26,11 +28,10 @@ def initialize_child():
 
 def print_cards(cards):
     for card in cards:
-        print("\nDate: ", card.date, " ", card.half_day)
-        #print("Child ID: ", card.child_id)
-        #print("Activity ID: ", card.activity_id)
-        print(" ----   ", card.activity_name)
-        print("Opening hour: ", card.biz_hour)
+        print("******")
+        json_card = jsonpickle.encode(card)
+        pprint.pprint(json.loads(json_card))
+        print('\n')
 
 
 '''

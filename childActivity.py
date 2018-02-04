@@ -34,9 +34,27 @@ def print_cards(cards):
         print('\n')
 
 
-'''
- -------   Execution   --------
-'''
+def card_to_dic(card):
+    dic = {}
+    
+    
+    dic['date'] = str(card.date)
+    dic['child_id'] = card.child_id
+    dic['activity_id'] = card.activity_id
+    
+    dic['biz_hour'] = {}
+    for i in range (len(card.biz_hour)):
+        open_str = 'opening_hour_' + str(i)
+        close_str = 'closing_hour_' + str(i)
+        dic['biz_hour'][open_str] = card.biz_hour[i][0]
+        dic['biz_hour'][close_str] = card.biz_hour[i][1]
+        
+    dic['time'] = card.half_day
+    dic['activity_name'] = card.activity_name
+  
+
+
+    return dic
         
 def main():
     child_list = []
@@ -45,6 +63,18 @@ def main():
     child_list = initialize_child()
     date_list = activityReco.next_sat()
     #result = activityReco.activity_reco(child_list,date_list, '01:00')
-    result = activityReco.activity_reco(child_list,date_list, '')
+    cards = activityReco.activity_reco(child_list,date_list, '')
+    
+    result = []
+    for card in cards:
+        result.append(card_to_dic(card))
 
-    print_cards(result)
+    return result
+
+if __name__ == "__main__":
+    cards = main()
+    print_cards(cards)
+    #print(cards)
+    
+    
+    

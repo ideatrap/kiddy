@@ -37,12 +37,14 @@ def print_cards(cards):
 '''
  -------   Execution   --------
 '''
-child_list = []
-date_list = []
+        
+def main():
+    child_list = []
+    date_list = []
 
-child_list = initialize_child()
-date_list = activityReco.next_sat()
-#result = activityReco.activity_reco(child_list,date_list, '01:00')
-result = activityReco.activity_reco(child_list,date_list, '')
+    child_list = initialize_child()
+    date_list = activityReco.next_sat()
+    #result = activityReco.activity_reco(child_list,date_list, '01:00')
+    result = activityReco.activity_reco(child_list,date_list, '')
 
-print_cards(result)
+    print_cards(result)

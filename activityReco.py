@@ -50,11 +50,14 @@ def list_to_dataFrame (ls, df):
 
 
 
-def reco (activities, child_list, date, time = ""):
+def reco (activities, child_list, date, time = "", num_act=1):
     cards = []
+    result = {}
+    result['date'] = date
+    result['activities'] = []
 
     for child in child_list:
-
+        result['child_id'] = child.id
         #Age filter - find all activities that meeting age requirement
         age = cal_age(date, child)
         #age appropriate
@@ -70,27 +73,29 @@ def reco (activities, child_list, date, time = ""):
         #personalize the activity based on personal activity record
         i = 0
         for act_df in act_date_df_ls: #iterate through morning and afternoon session
-            act_result_df = personalize.personalize(act_df, child, num = 1)
+            act_result_df = personalize.personalize(act_df, child, num_act)
             for index, act in act_result_df.iterrows():
-                card = card_class.Card ()
-                card.date = date
-                card.child_id = child.id
-                card.activity_id = act['activity_id']
-                card.biz_hour = act['opening_hour']
-                card.activity_name = act['name']
-                if i == 0 and len(act_date_df_ls) == 2:
-                    card.time = 'Morning'
-                elif i == 1 and len(act_date_df_ls) == 2:
-                    card.time = 'Afternoon'
+                result['activities'].append({})
+                result['activities'][i]['activity_id'] = act['activity_id']
+                result['activities'][i]['biz_hour'] = []
+                for j in range (len(act['opening_hour'])):
+                    open_str = 'opening_hour_' + str(j)
+                    close_str = 'closing_hour_' + str(j)
+                    result['activities'][i]['biz_hour'].append({open_str:act['opening_hour'][0][0]})
+                    result['activities'][i]['biz_hour'].append({close_str:act['opening_hour'][0][1]})
+                result['activities'][i]['activity_name'] = act['name']
+                if i%2 == 0 and len(act_date_df_ls) == 2:
+                    result['activities'][i]['time'] = 'Morning'
+                elif i%2 == 1 and len(act_date_df_ls) == 2:
+                    result['activities'][i]['time'] ='Afternoon'
                 else:
-                    card.time = 'Time: '+ time
-                cards.append(card)
-            i = 1+i
+                    result['activities'][i]['time'] = time
+                i = 1+i
+    #return cards
+    return result
 
-    return cards
-
-def activity_reco (child_list, date, time=""):
+def activity_reco (child_list, date, time="", num_act =1):
     #read in activity database
     activities = get_activities()
-    reco_act = reco(activities, child_list, date, time)
+    reco_act = reco(activities, child_list, date, time, num_act)
     return reco_act

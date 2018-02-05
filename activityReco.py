@@ -84,11 +84,11 @@ def reco (activities, child_list, date_list, time = ""):
                     card.biz_hour = act['opening_hour']
                     card.activity_name = act['name']
                     if i == 0 and len(act_date_df_ls) == 2:
-                        card.half_day = 'Morning'
+                        card.time = 'Morning'
                     elif i == 1 and len(act_date_df_ls) == 2:
-                        card.half_day = 'Afternoon'
+                        card.time = 'Afternoon'
                     else:
-                        card.half_day = 'Time: '+ time
+                        card.time = 'Time: '+ time
                     cards.append(card)
                 i = 1+i
 

@@ -7,5 +7,5 @@ class Card:
         biz_hour = None
 
         #optional:
-        half_day = None
+        time = None
         activity_name = None

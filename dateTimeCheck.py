@@ -66,7 +66,8 @@ def open_act_filter (df, date, start_time, end_time):
         if status == 'open':
             #it's open. no need to continue to check
             #append the business hour to the new column
-            df_output= df_output.set_value(index, "opening_hour", opening_hour)
+            #df_output= df_output.set_value(index, "opening_hour", opening_hour)
+            df_output.at[index,'opening_hour'] = opening_hour
             continue
 
         #check public holiday
@@ -130,7 +131,8 @@ def open_act_filter (df, date, start_time, end_time):
 
         if status == 'open':
             #it's open. no need to continue to check
-            df_output= df_output.set_value(index, "opening_hour", opening_hour)
+            #df_output= df_output.set_value(index, "opening_hour", opening_hour)
+            df_output.at[index,'opening_hour'] = opening_hour
             continue
 
         #if there is specific hour
@@ -139,14 +141,16 @@ def open_act_filter (df, date, start_time, end_time):
             act_end_hour = act['biz_hour']['A'][1]
             if act_end_hour > start_time and act_start_hour <= end_time:
                 status = 'open'
-                df_output= df_output.set_value(index, "opening_hour", [[act_start_hour, act_end_hour]])
+                #df_output= df_output.set_value(index, "opening_hour", [[act_start_hour, act_end_hour]])
+                df_output.at[index,"opening_hour"] = [[act_start_hour, act_end_hour]]
             else:
                 df_output = df_output.drop(index)
                 continue
         else:
             #it always open
             status == 'open'
-            df_output= df_output.set_value(index, "opening_hour", [['00:00','24:00']])
+            #df_output= df_output.set_value(index, "opening_hour", [['00:00','24:00']])
+            df_output.at[index,"opening_hour"] = [['00:00','24:00']]
 
     df_output = tools.reindex(df_output)
     return df_output

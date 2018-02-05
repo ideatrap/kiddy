@@ -31,11 +31,7 @@ def next_sat():
 
     next_sat = '2018-01-27'
 
-    date_list = []
-    date_list.append(today_str)
-    date_list.append(next_sat)
-
-    return date_list
+    return today_str
 
 #calculate kids' age till today
 def cal_age(date, child):
@@ -54,48 +50,47 @@ def list_to_dataFrame (ls, df):
 
 
 
-def reco (activities, child_list, date_list, time = ""):
+def reco (activities, child_list, date, time = ""):
     cards = []
 
-    for date in date_list:
-        for child in child_list:
+    for child in child_list:
 
-            #Age filter - find all activities that meeting age requirement
-            age = cal_age(date, child)
-            #age appropriate
-            if age == -1: #not considering age constraint
-                act_age = activities
-            else:
-                act_age = activities[(activities.min_age <= age) & (activities.max_age >= age)]
-                act_age = tools.reindex(act_age)
+        #Age filter - find all activities that meeting age requirement
+        age = cal_age(date, child)
+        #age appropriate
+        if age == -1: #not considering age constraint
+            act_age = activities
+        else:
+            act_age = activities[(activities.min_age <= age) & (activities.max_age >= age)]
+            act_age = tools.reindex(act_age)
 
-            #get the list of activities that open
-            act_date_df_ls = dateTimeCheck.open_activities(act_age, date, time)
+        #get the list of activities that open
+        act_date_df_ls = dateTimeCheck.open_activities(act_age, date, time)
 
-            #personalize the activity based on personal activity record
-            i = 0
-            for act_df in act_date_df_ls: #iterate through morning and afternoon session
-                act_result_df = personalize.personalize(act_df, child, num = 1)
-                for index, act in act_result_df.iterrows():
-                    card = card_class.Card ()
-                    card.date = date
-                    card.child_id = child.id
-                    card.activity_id = act['activity_id']
-                    card.biz_hour = act['opening_hour']
-                    card.activity_name = act['name']
-                    if i == 0 and len(act_date_df_ls) == 2:
-                        card.time = 'Morning'
-                    elif i == 1 and len(act_date_df_ls) == 2:
-                        card.time = 'Afternoon'
-                    else:
-                        card.time = 'Time: '+ time
-                    cards.append(card)
-                i = 1+i
+        #personalize the activity based on personal activity record
+        i = 0
+        for act_df in act_date_df_ls: #iterate through morning and afternoon session
+            act_result_df = personalize.personalize(act_df, child, num = 1)
+            for index, act in act_result_df.iterrows():
+                card = card_class.Card ()
+                card.date = date
+                card.child_id = child.id
+                card.activity_id = act['activity_id']
+                card.biz_hour = act['opening_hour']
+                card.activity_name = act['name']
+                if i == 0 and len(act_date_df_ls) == 2:
+                    card.time = 'Morning'
+                elif i == 1 and len(act_date_df_ls) == 2:
+                    card.time = 'Afternoon'
+                else:
+                    card.time = 'Time: '+ time
+                cards.append(card)
+            i = 1+i
 
     return cards
 
-def activity_reco (child_list, date_list, time=""):
+def activity_reco (child_list, date, time=""):
     #read in activity database
     activities = get_activities()
-    reco_act = reco(activities, child_list, date_list, time)
+    reco_act = reco(activities, child_list, date, time)
     return reco_act

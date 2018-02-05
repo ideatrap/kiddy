@@ -28,7 +28,6 @@ def initialize_child():
 
 def print_cards(cards):
     for card in cards:
-        print("******")
         json_card = jsonpickle.encode(card)
         pprint.pprint(json.loads(json_card))
         print('\n')
@@ -57,12 +56,11 @@ def card_to_dic(card):
 
 def main():
     child_list = []
-    date_list = []
 
     child_list = initialize_child()
-    date_list = activityReco.next_sat()
+    date = activityReco.next_sat()
     #result = activityReco.activity_reco(child_list,date_list, '01:00')
-    cards = activityReco.activity_reco(child_list,date_list, '')
+    cards = activityReco.activity_reco(child_list,date, '')
 
     result = []
     for card in cards:
